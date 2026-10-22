@@ -1,0 +1,14 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE IF NOT EXISTS teams(id INTEGER PRIMARY KEY, name TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE NOT NULL, password TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('cliente','atendente','supervisor','gestor')), team_id INTEGER REFERENCES teams(id));
+CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY, user_id INTEGER REFERENCES users(id), csrf TEXT NOT NULL, expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS login_attempts(key TEXT PRIMARY KEY, failures INTEGER NOT NULL, until INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS tickets(id INTEGER PRIMARY KEY, protocol TEXT UNIQUE NOT NULL, client_id INTEGER NOT NULL REFERENCES users(id), agent_id INTEGER NOT NULL REFERENCES users(id), team_id INTEGER NOT NULL REFERENCES teams(id), subject TEXT NOT NULL, channel TEXT NOT NULL, status TEXT NOT NULL, created TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS feedbacks(id INTEGER PRIMARY KEY, protocol TEXT UNIQUE NOT NULL, ticket_id INTEGER NOT NULL REFERENCES tickets(id), client_id INTEGER NOT NULL REFERENCES users(id), text TEXT NOT NULL, origin TEXT NOT NULL CHECK(origin IN ('texto','gravado','anexado')), created TEXT NOT NULL, analysis_status TEXT NOT NULL DEFAULT 'pendente');
+CREATE TABLE IF NOT EXISTS analyses(id INTEGER PRIMARY KEY, feedback_id INTEGER UNIQUE NOT NULL REFERENCES feedbacks(id), sentiment TEXT NOT NULL, confidence REAL, summary TEXT NOT NULL, topics TEXT NOT NULL, critical INTEGER NOT NULL, evidence TEXT NOT NULL, provider TEXT NOT NULL, created TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS reviews(id INTEGER PRIMARY KEY, feedback_id INTEGER NOT NULL REFERENCES feedbacks(id), author_id INTEGER NOT NULL REFERENCES users(id), sentiment TEXT NOT NULL, critical INTEGER NOT NULL, justification TEXT NOT NULL, responsible_id INTEGER REFERENCES users(id), status TEXT NOT NULL, action TEXT NOT NULL, created TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS drafts(id TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id), text TEXT NOT NULL, origin TEXT NOT NULL, expires INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS tickets_scope ON tickets(team_id,agent_id,client_id);
+CREATE INDEX IF NOT EXISTS feedbacks_ticket ON feedbacks(ticket_id);
+CREATE INDEX IF NOT EXISTS reviews_feedback ON reviews(feedback_id,id);
+PRAGMA user_version=1;
