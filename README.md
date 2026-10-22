@@ -81,6 +81,8 @@ O comando remove temporários abandonados, rascunhos e sessões expirados. `scri
 
 ## Serviços de análise e transcrição
 
+Para a proposta de integração com Gemini, consulte [Análise de feedbacks com Gemini](docs/GEMINI.md): fluxo, contrato de resposta, limites do plano gratuito, privacidade e critérios de validação. A integração está planejada; o código atual oferece somente os modos `demo` e `openai`.
+
 Consulte [.env.example](.env.example). As variáveis devem ser exportadas no processo ou configuradas no gerenciador seguro do ambiente. Não há leitura automática de `.env` nem chave no repositório.
 
 - `ANALYSIS_MODE=demo` (padrão): regras locais e resumo por trecho. **Não é IA**, não há confiança probabilística e a interface identifica demonstração.
