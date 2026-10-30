@@ -4,6 +4,14 @@ Plataforma acadêmica de análise e monitoramento de feedbacks. Projeto integrad
 
 Implementação em **Python 3.12+, Flask, SQLite e JavaScript sem framework**. O repositório de referência contém documentação, sem stack anterior. Essa escolha mantém a instalação pequena, o banco inspecionável e as permissões centralizadas. FFmpeg valida o conteúdo, formato e duração dos áudios. Não há integração com tickets ou telefonia externos.
 
+## Protótipo no Figma
+
+[Acessar o protótipo navegável do CTI Escuta](https://www.figma.com/design/Y6lOlS46bDPeeN0wOHefRz?node-id=6-725)
+
+São **23 telas editáveis** com os fluxos de cliente, atendente, supervisor e gestor: login, atendimentos, feedback por texto e áudio, revisão humana, dashboards e relatórios.
+
+Abra a tela **Comece por aqui**, clique em **Apresentar (▶)** e escolha um perfil para explorar. A seleção é exclusiva da apresentação; na aplicação, o login identifica o perfil automaticamente. As interações usam dados fictícios e identidade visual provisória.
+
 ## Executar localmente
 
 Pré-requisitos: Python 3.12+, FFmpeg/ffprobe no PATH. Em Debian/Ubuntu, instale `python3-venv` e `ffmpeg` pelo gerenciador do sistema. Use o checkout existente; não é necessário criar worktree.
